@@ -1,0 +1,27 @@
+{
+  "name": "serialport-slip",
+  "version": "0.0.0",
+  "description": "Configurable and extendable SLIP protocol implementation for serial communication physical interfaces",
+  "author": {
+    "name": "Boris Chumichev",
+    "email": "boris362@yandex.ru",
+    "url": "https://github.com/BorisChumichev"
+  },
+  "main": "src/slip.js",
+  "scripts": {
+    "test": "mocha -R spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BorisChumichev/node-serialport-slip"
+  },
+  "dependencies": {
+    "buffertools": "^2.1.2",
+    "serialport": "^1.6.3",
+    "underscore": "^1.8.2"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "1.21.4"
+  }
+}
