@@ -1,6 +1,6 @@
 {
   "serailPort": {
-    "path": "/dev/cu.SLAB_USBtoUART",
+    "path": "/dev/cu.JBLPulse-WirelessiAP",
     "options": {
       "baudrate": 115200,
       "databits": 8,
