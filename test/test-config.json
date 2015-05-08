@@ -1,0 +1,26 @@
+{
+  "serailPort": {
+    "path": "/dev/cu.SLAB_USBtoUART",
+    "options": {
+      "baudrate": 115200,
+      "databits": 8,
+      "stopbits": 1,
+      "buffersize": 255
+    } 
+  },
+  "protocol": {
+    "messageMaxLength": 256,
+    "endByte": 192,
+    "escapeByte": 219,
+    "escapeRules": [
+      {
+        "initialFragment": 192,
+        "replacement": 220
+      },
+      {
+        "initialFragment": 219,
+        "replacement": 221
+      }
+    ]  
+  }
+}
