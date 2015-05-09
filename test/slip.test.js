@@ -27,7 +27,14 @@ describe('SLIP class', function () {
     })
 
     it('has protocol_ defined', function(){
-      assert.isObject(slip.protocol_)
+      var slip = new SLIP(conf.serailPort.path, conf.serailPort.options, {endByte: 0xc1})
+      assert.deepEqual(slip.protocol_, { 
+        endByte: 193,
+        messageMaxLength: 256,
+        escapeByte: 219,
+        escapeRules: [{ initialFragment: 192, replacement: 220 },
+                      { initialFragment: 219, replacement: 221 } ]
+        })
     })
 
     it('has sendMessage method that send message to seriaport', function(done){

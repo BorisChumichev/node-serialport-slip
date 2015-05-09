@@ -7,6 +7,9 @@ var SerialPort = require("serialport").SerialPort
   , util = require('util')
   , bt = require('buffertools')
   , SLIPMessage = require('./slip-message.js')
+  , fs = require('fs')
+  , defaultProtocolDefinition = JSON.parse(fs.readFileSync('src/default-protocol-definition.json', {encoding: 'utf8'}))
+  , _ = require('underscore')
 
 /**
  * @param {String} path           path to serial port
@@ -18,6 +21,7 @@ var SLIP = function (path, options, protocol) {
   var that = this
   //super constructor call
   SerialPort.call(this, path, options)
+  protocol = _.defaults(protocol ? protocol : {}, defaultProtocolDefinition)
   SLIPMessage.applyProtocol(protocol)
   this.protocol_ = protocol
   this.endByte_ = new Buffer([protocol.endByte])
