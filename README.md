@@ -63,4 +63,44 @@ Each time incoming message occurs `slip` object fires 'message' event, so in ord
 
 ### Extending protocol
 
+Default protocol settings are: 
 
+```js
+  {
+    "messageMaxLength": 256,
+    "endByte": 0xC0,
+    "escapeByte": 0xDB,
+    "escapeRules": [
+      {
+        "initialFragment": 0xC0,
+        "replacement": 0xDC
+      },
+      {
+        "initialFragment": 0xDB,
+        "replacement": 0xDD
+      }
+    ]  
+  }
+``` 
+
+You can change settings using third argument while SLIP instantiation like so:
+
+```js
+  var slip = new SLIP("path-to-port", {
+    baudrate: 57600
+  }, {
+    'endByte': 0xC3,
+    "escapeRules": [
+      {
+        "initialFragment": 0xC3,
+        "replacement": 0xDC
+      },
+      {
+        "initialFragment": 0xDB,
+        "replacement": 0xDD
+      }
+    ]  
+  });
+``` 
+
+This will change default `0xC0` value for END byte to `0xC3`, and add new escaping rule.
