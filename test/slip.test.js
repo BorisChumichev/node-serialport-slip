@@ -30,13 +30,18 @@ describe('SLIP class', function () {
       assert.isObject(slip.protocol_)
     })
 
-    it('has sendMessage method', function(){
+    it('has sendMessage method that send message to seriaport', function(done){
       assert.isFunction(slip.sendMessage)
+      slip.sendMessage(new Buffer([0]), function (err) {
+        assert.isTrue(err.message == 'Serialport not open.')
+        done()
+      })
     })
 
     it('has collectDataAndFireMessageEvent_ method', function(done){
+      slip.collectDataAndFireMessageEvent_(new Buffer([0x22]))
       slip.on('message', function (buf) {
-        assert.isTrue(buf.equals(new Buffer([0x20, 0x24])))
+        assert.isTrue(buf.equals(new Buffer([0x22, 0x20, 0x24])))
         done()
       })
       slip.collectDataAndFireMessageEvent_(new Buffer([0x20, 0x24, 0xc0, 0x22, 0x21]))
