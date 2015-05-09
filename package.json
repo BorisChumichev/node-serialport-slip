@@ -1,7 +1,7 @@
 {
   "name": "serialport-slip",
   "version": "0.0.0",
-  "description": "Configurable and extendable SLIP protocol implementation for serial communication physical interfaces",
+  "description": "SLIP protocol implementation for serial communication physical interfaces",
   "author": {
     "name": "Boris Chumichev",
     "email": "boris362@yandex.ru",
@@ -9,7 +9,7 @@
   },
   "main": "src/slip.js",
   "scripts": {
-    "test": "mocha -R spec"
+    "test": "istanbul cover _mocha -- -R spec"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   },
   "devDependencies": {
     "chai": "~1.9.1",
+    "istanbul": "^0.3.13",
     "mocha": "1.21.4"
   }
 }
