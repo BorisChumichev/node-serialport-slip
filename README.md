@@ -37,7 +37,7 @@ In order to transmit message use `sendMessage` method like so:
   })
 ``` 
 
-Where `new Buffer([])` is data that needs to be sent. `serialport-slip` adds a special END byte to it 
+Where `new Buffer([0x10, 0x11, 0x12])` is data that needs to be sent. `serialport-slip` adds a special END byte to it 
 , which distinguishes datagram boundaries in the byte stream, also
 if the END byte occurs in the data to be sent, the two byte sequence ESC, ESC_END is sent instead,
 if the ESC byte occurs in the data, the two byte sequence ESC, ESC_ESC is sent.
@@ -50,6 +50,8 @@ Default END, ESC, ESC_END, ESC_ESC hex values are in the following teble:
 |`0xDB` | ESC | Frame Escape|
 |`0xDC` | ESC_END | Transposed Frame End|
 |`0xDD` | ESC_ESC | Transposed Frame Escape|
+
+You are able to extend escaping rules and redefine default hex values, read "Extending protocol" section for details.
 
 Each time incoming message occurs `slip` object fires 'message' event, so in order to handle messages you can do something like:
 
