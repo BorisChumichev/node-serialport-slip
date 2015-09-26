@@ -8,7 +8,7 @@ var SerialPort = require("serialport").SerialPort
   , bt = require('buffertools')
   , SLIPMessage = require('./slip-message.js')
   , fs = require('fs')
-  , defaultProtocolDefinition = JSON.parse(fs.readFileSync('src/default-protocol-definition.json', {encoding: 'utf8'}))
+  , defaultProtocolDefinition = JSON.parse(fs.readFileSync(__dirname + '/default-protocol-definition.json', {encoding: 'utf8'}))
   , _ = require('underscore')
 
 /**
