@@ -1,6 +1,6 @@
 {
   "name": "serialport-slip",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "SLIP protocol implementation for serial communication physical interfaces",
   "author": {
     "name": "Boris Chumichev",
