@@ -3,7 +3,7 @@
 /**
  * Dependencies
  */
-var SerialPort = require("serialport").SerialPort
+var SerialPort = require("serialport")
   , util = require('util')
   , bt = require('buffertools')
   , SLIPMessage = require('./slip-message.js')
@@ -26,7 +26,7 @@ var SLIP = function (path, options, protocol) {
   this.protocol_ = protocol
   this.endByte_ = new Buffer([protocol.endByte])
   // register on data handler
-  this.on('data', function(data) {
+  this.on('data', function (data) {
     that.collectDataAndFireMessageEvent_(data)
   })
 }
@@ -48,10 +48,30 @@ SLIP.prototype.sendMessage = function (buffer, callback) {
 }
 
 /**
+ * Sends message to device, waiting for all data to be transmitted to the
+ * serial port before calling the callback.
+ * @param  {String}   data     Data array that need to be sent
+ * @param  {Function} callback This will fire after sending
+ */
+SLIP.prototype.sendMessageAndDrain = function (buffer, callback) {
+  var message = new SLIPMessage(buffer)
+    , that = this
+  this.write(message, function (err) {
+    if (err) return callback(err);
+    this.drain(function () {
+      this.write(that.endByte_, function (err) {
+        if (err) return callback(err);
+        this.drain(callback);
+      });
+    });
+  });
+}
+
+/**
  * Stores recieved bytes to a temporary array till endByte
  * appears in the chunk then fires 'message' event
  * @private
- * @param  {Buffer}   data 
+ * @param  {Buffer}   data
  */
 SLIP.prototype.collectDataAndFireMessageEvent_ = (function () {
   var temporaryBuffer = new Buffer(256)
@@ -70,8 +90,8 @@ SLIP.prototype.collectDataAndFireMessageEvent_ = (function () {
       temporaryBuffer.copy(messageBuffer, 0, 0, writeCursor)
       this.emit('message', SLIPMessage.unescape(messageBuffer))
       writeCursor = 0
-      if (data.length-1 > endIndex) //if has data after endByte
-        writeCursor += data.copy(temporaryBuffer, 0, endIndex+1, data.length)
+      if (data.length - 1 > endIndex) //if has data after endByte
+        writeCursor += data.copy(temporaryBuffer, 0, endIndex + 1, data.length)
     }
   }
 })()
