@@ -26,7 +26,7 @@ var SLIP = function (path, options, protocol) {
   this.protocol_ = protocol
   this.endByte_ = new Buffer([protocol.endByte])
   // register on data handler
-  this.on('data', function (data) {
+  this.on('data', function(data) {
     that.collectDataAndFireMessageEvent_(data)
   })
 }
@@ -39,12 +39,9 @@ util.inherits(SLIP, SerialPort)
  * @param  {Function} callback This will fire after sending
  */
 SLIP.prototype.sendMessage = function (buffer, callback) {
-  var message = new SLIPMessage(buffer)
-    , that = this
-  this.write(message, function (err) {
-    if (err) return callback(err)
-    this.write(that.endByte_, callback)
-  })
+  var that = this;
+  var message = Buffer.concat([new SLIPMessage(buffer), that.endByte_]);
+  this.write(message, callback);
 }
 
 /**
@@ -54,16 +51,11 @@ SLIP.prototype.sendMessage = function (buffer, callback) {
  * @param  {Function} callback This will fire after sending
  */
 SLIP.prototype.sendMessageAndDrain = function (buffer, callback) {
-  var message = new SLIPMessage(buffer)
-    , that = this
+  var that = this;
+  var message = Buffer.concat([new SLIPMessage(buffer), that.endByte_]);
   this.write(message, function (err) {
     if (err) return callback(err);
-    this.drain(function () {
-      this.write(that.endByte_, function (err) {
-        if (err) return callback(err);
-        this.drain(callback);
-      });
-    });
+    this.drain(callback);
   });
 }
 
@@ -90,8 +82,8 @@ SLIP.prototype.collectDataAndFireMessageEvent_ = (function () {
       temporaryBuffer.copy(messageBuffer, 0, 0, writeCursor)
       this.emit('message', SLIPMessage.unescape(messageBuffer))
       writeCursor = 0
-      if (data.length - 1 > endIndex) //if has data after endByte
-        writeCursor += data.copy(temporaryBuffer, 0, endIndex + 1, data.length)
+      if (data.length-1 > endIndex) //if has data after endByte
+        writeCursor += data.copy(temporaryBuffer, 0, endIndex+1, data.length)
     }
   }
 })()
