@@ -2,7 +2,7 @@
 
 The `node-serialport-slip` is an implementation of the Serial Line Internet Protocol ([RFC 1055](http://www.rfc-editor.org/rfc/rfc1055.txt)) designed to work over serial ports and modem connections. `node-serialport-slip` extends [`node-serialport`](https://github.com/voodootikigod/node-serialport) library which is bult to access serial ports.
 
-> Since SLIP is a subclass of `SerialPort` it's worth to read [`node-serialport`](https://github.com/voodootikigod/node-serialport) docs first.
+> Since `SLIP` is a subclass of `SerialPort` it's worth to read [`node-serialport`](https://github.com/voodootikigod/node-serialport) docs first.
 
 For most use cases you can install `node-serialport-slip` using `npm`:
 
